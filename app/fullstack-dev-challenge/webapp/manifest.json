@@ -1,0 +1,178 @@
+{
+    "_version": "1.49.0",
+    "sap.app": {
+        "id": "fullstackdevchallenge",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:lrop",
+            "version": "1.11.0",
+            "toolsId": "1bb76809-6b32-4518-bb17-1ae1e74de686"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/dev-challenge/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "4.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.118.1",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.ushell": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "fullstackdevchallenge.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "resources": {
+            "css": []
+        },
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "TestsList",
+                    "target": "TestsList"
+                },
+                {
+                    "pattern": "Tests({key}):?query:",
+                    "name": "TestsObjectPage",
+                    "target": "TestsObjectPage"
+                },
+                {
+                    "pattern": "Tests({key})/questions({key2}):?query:",
+                    "name": "QuestionsObjectPage",
+                    "target": "QuestionsObjectPage"
+                }
+            ],
+            "targets": {
+                "TestsList": {
+                    "type": "Component",
+                    "id": "TestsList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "entitySet": "Tests",
+                            "variantManagement": "Page",
+                            "navigation": {
+                                "Tests": {
+                                    "detail": {
+                                        "route": "TestsObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "TestsObjectPage": {
+                    "type": "Component",
+                    "id": "TestsObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "Tests",
+                            "navigation": {
+                                "questions": {
+                                    "detail": {
+                                        "route": "QuestionsObjectPage"
+                                    }
+                                }
+                            },
+                            "content": {
+                                "header": {
+                                    "actions": {
+                                        "TestObjectPageAction": {
+                                            "press": "fullstackdevchallenge.ext.testObjectPageAction.TestObjectPageAction.AddQuestion",
+                                            "visible": true,
+                                            "enabled": true,
+                                            "requiresSelection": false,
+                                            "text": "Add Questions"
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "QuestionsObjectPage": {
+                    "type": "Component",
+                    "id": "QuestionsObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "Questions"
+                        }
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {}
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": [],
+        "archeType": "transactional"
+    }
+}
